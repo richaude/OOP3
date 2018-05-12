@@ -1,15 +1,12 @@
 package kodierung;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Verwaltung {
 
-	private List<Kodierung> kodierungen;
+	private StreamKoordinierung streamKoordinierung ;
 	
 	// Standart-Konstruktor
 	public Verwaltung() {
-		this.kodierungen = new ArrayList<Kodierung>();
+		
 	}
 	
 	// Soll den gesamten Programmablauf und die Funktionsaufrufe steuern
@@ -18,14 +15,10 @@ public class Verwaltung {
 	}
 	
 	// Soll alle benoetigten Werte einlesen
-	public StringBuilder einlesen() {
-		StringBuilder eingabe = new StringBuilder("");
+	public void einlesenUndInitialisieren() {
 		
 		
 		
-		
-		
-		return eingabe;
 	}
 	
 	// Schlussendliche Textausgabe auf der Konsole
