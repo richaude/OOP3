@@ -7,7 +7,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
+/**
+ * Klasse StreamKoordinierung
+ * Diese Klasse kuemmert sich um die verschiedenen Modi der Anwendung der Caesar-Chiffre und ist fuer die den In-/Output von Dateien zustaendig
+ * @author Lukas
+ * @version 1.0
+ */
 public class StreamKoordinierung {
 	private boolean chiffrieren;
 	private byte schluessel;
@@ -17,6 +22,14 @@ public class StreamKoordinierung {
 	private String endDatei;
 	private Chiffre chiffre;
 	
+	
+	/**
+	 * Standart-Konstruktor, legt wichtige Anfangswerte fest und initialisiert
+	 * @param c bezeichnet den gewollten Modus. True - Chiffrieren , False - Dechiffrieren
+	 * @param s bezeichnet den zu verwendenden Schluessel, Wert '88' falls ein ZufallsSchluessel verwendet werden soll
+	 * @param startDatei Name der Datei mit dem Rohtext
+	 * @param endDatei Name der Datei mit dem fertig bearbeiteten Text
+	 */
 	public StreamKoordinierung(boolean c, byte s, String startDatei, String endDatei) {
 		this.chiffrieren = c;
 		this.schluessel = s;
@@ -26,7 +39,10 @@ public class StreamKoordinierung {
 		this.endText = new String("");
 	}
 	
-	
+	/**
+	 * Unterscheidet alle drei verschiedenen Modi und erzeugt anhand dieser eine Chiffre-Instanz, die sie dem Klassenattribut zuweist
+	 * Danach wird ueber die Funktionen der Chiffre-Instanz der vorliegende Text bearbeitet und das Ergebnis in das Klassenattribut endText geschrieben
+	 */
 	public void koordiniereAnhandDerEingabedaten() {
 
 		String ausgabe = new String("");
@@ -63,7 +79,10 @@ public class StreamKoordinierung {
 	//	System.out.println(this.endText + " <-- EndTExt"); // Debug
 	}
 	
-	
+	/**
+	 * Liest anhand der startDatei den darin befindlichen Text ein und weist diesen dem Klassenattribut startText zu.
+	 * @return  Gibt true bei erfolgreichem Text-lesen aus, sonst false
+	 */
 	public boolean liesStarttextAusDatei() {
 		boolean erfolg = true;
 		StringBuilder lesen = new StringBuilder("");
@@ -100,7 +119,9 @@ public class StreamKoordinierung {
 		return erfolg;
 	}
 	
-	
+	/**
+	 * Schreibt den vorhandenen endText in eine Datei mit dem Namen des in endDatei befindlichen Strings
+	 */
 	public void schreibeEndtextInDatei() {
 		BufferedWriter bw;
 		

@@ -4,22 +4,36 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-
+/**
+ * Klasse Verwaltung
+ * Diese Klasse kuemmert sich um den Programmablauf und die Wuensche des Nutzers. Dabei liest sie den Modus, den Schluessel und die
+ * gewuenschten Namen fuer Start-und EndDatei ein. Danach erzeugt sie eine textuelle Ausgabe der Chiffrierung
+ * @author Lukas
+ * @version 1.0
+ */
 public class Verwaltung {
 
-	private StreamKoordinierung streamKoordinierung ;
+	private StreamKoordinierung streamKoordinierung;
 	
-	// Standart-Konstruktor
+	/**	 
+	 * Standart-Konstruktor 
+	 */
 	public Verwaltung() {
 		
 	}
 	
-	// Soll den gesamten Programmablauf und die Funktionsaufrufe steuern
+	/**
+	 * Steuert den Programmablauf und ist Anlaufpunkt fuer die Main-Klasse
+	 */
 	public void steuern() {
 		einlesenUndInitialisieren();
 		ausgabe();
 	}
 	
+	/**
+	 * Gibt den Monolog zum Nutzer hin aus und erwartet seine Eingaben. Diese werden auf die privaten Methoden zur besseren Uebersichtlichkeit
+	 * weitergeleitet. Dann werden die eingelesenen Werte zur Erzeugung einer Streamkoordinierung-Instanz benutzt, die als Klassenattribut gespeichert wird. 
+	 */
 	// Soll alle benoetigten Werte einlesen
 	public void einlesenUndInitialisieren() {
 		
@@ -54,13 +68,12 @@ public class Verwaltung {
 		}
 		while(!erfolgreichEingelesen);
 		
-		
-		
-		
-		
 		System.out.println("\nDie Eingabe lief erfolgreich ab, wir beginnen nun mit der De-/Chiffrierung.");
 	}
 	
+	/**
+	 * Diese Funktion koordiniert die Instanz der Streamkoordinierung und sorgt fuer die Ausgabe des fertigen Textes in Datei-Form.
+	 */
 	// Schlussendliche Textausgabe auf der Konsole
 	public void ausgabe() {
 		this.streamKoordinierung.koordiniereAnhandDerEingabedaten();
@@ -68,14 +81,14 @@ public class Verwaltung {
 		System.out.println("Alles erfolgreich abgelaufen, herzlichen Glueckwunsch!");
 	}
 	
-	
-	
-	
-	
-	
+	//*****************************
 	// Der Uebersichtlichkeit wegen
+	//*****************************
 	
-	
+	/**
+	 * Fragt den Modus in einer While-Schleife bis zur erfolgreichen Abfrage ab, um einmalige Ausfuehrung des Programms zu gewaehrleisten
+	 * @return True falls Modus -> Chiffrieren, False falls Modus -> Dechiffrieren
+	 */
 	private boolean getModus() {
 		boolean chiffrieren;
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -116,7 +129,10 @@ public class Verwaltung {
 		return chiffrieren;
 	}
 	
-	
+	/**
+	 * Fragt den Schluessel in einer While-Schleife bis zur erfolgreichen Abfrage ab, um einmalige Ausfuehrung des Programms zu gewaehrleisten
+	 * @return Den Schluessel als Byte im Intervall [0,25], falls zufaelliger Schluessel gewollt ist, Schluessel = 88
+	 */
 	private byte getSchluessel() {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String eingabe = new String("");
@@ -160,7 +176,10 @@ public class Verwaltung {
 		// Schluesseleingabe ist erfolgt, 88 steht fuer Unbekannter Wert
 		return schluessel;
 	}
-	
+	/**
+	 * Fragt die gewollten Datei-Namen in einer While-Schleife bis zur erfolgreichen Abfrage ab, um einmalige Ausfuehrung des Programms zu gewaehrleisten
+	 * @return String-Array mit eingabeDatei an 0. Stelle und ausgabeDatei an 1. Stelle
+ 	 */
 	
 	private String[] getDateiNamen() {
 		String[] dateiNamen = new String[2];

@@ -1,4 +1,9 @@
 package kodierung;
+/**
+ * Saubere Main-Klasse, die die weitere Ausfuehrung der Verwaltung laesst
+ * @author Lukas
+ * @version 1.0
+ */
 
 public class Main {
 
@@ -6,6 +11,6 @@ public class Main {
 		// TODO Auto-generated method stub
 		Verwaltung verwaltung = new Verwaltung();
 		verwaltung.steuern();
-	}
 
+	}
 }
