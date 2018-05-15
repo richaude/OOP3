@@ -13,13 +13,17 @@ public class StreamKoordinierung {
 	private byte schluessel;
 	private String startText;
 	private String endText;
+	private String startDatei;
+	private String endDatei;
 	private Chiffre chiffre;
 	
-	public StreamKoordinierung(boolean c, byte s, String startText, String endText) {
+	public StreamKoordinierung(boolean c, byte s, String startDatei, String endDatei) {
 		this.chiffrieren = c;
 		this.schluessel = s;
-		liesStarttextAusDatei();
-		this.endText = endText;	//Fehlt StartText als String
+		this.startDatei = startDatei;
+		this.endDatei = endDatei;
+		this.startText = new String("");
+		this.endText = new String("");
 	}
 	
 	
@@ -56,42 +60,44 @@ public class StreamKoordinierung {
 		}
 		this.endText = ausgabe;
 		System.out.println(chiffre.kryptAnalyse());
+	//	System.out.println(this.endText + " <-- EndTExt"); // Debug
 	}
 	
 	
-	public void liesStarttextAusDatei() {
+	public boolean liesStarttextAusDatei() {
+		boolean erfolg = true;
 		StringBuilder lesen = new StringBuilder("");
-		BufferedReader bis;
-		// Einlesen
-		
-		int a = 0; 
-		try {
-			bis = new BufferedReader(new FileReader(new File(startText)));
 
-			do {
-				a = bis.read();
-				if(a != -1) {
-					char c = (char) a;
-					lesen.append(c);
+			// Einlesen
+		
+			try (BufferedReader br = new BufferedReader(new FileReader(new File(this.startDatei)))) 	
+			{
+				String s = new String("");
+				while((s = br.readLine())!= null) {
+					lesen.append(s);
 				}
 			}
-			while(a != -1);
-		}
-		catch(FileNotFoundException fnfex) {
-			System.out.println("Konnte die Datei nicht finden! Bitte ueberpruefen sie den DateiNamen, gegebenenfalls den Pfad.");
-		}
-		catch(NullPointerException npex) {
-			System.out.println("Konnte die Datei nicht finden! Bitte ueberpruefen sie den DateiNamen, gegebenenfalls den Pfad.");
-		}
-		catch(IOException ioex) {
-		System.out.println("IO-Fehler! Bitte Datei ueberpruefen!");
-		}
-		catch(Throwable t) {
-			System.out.println("Fehler beim Einlesen des Start-Textes. Bitte ueberpruefen sie den DateiNamen, gegebenenfalls den Pfad.");
-		}
+			catch(FileNotFoundException fnfex) {
+				System.out.println("Konnte die Datei nicht finden! Bitte ueberpruefen sie den DateiNamen, gegebenenfalls den Pfad.");
+				erfolg = false;
+			}
+			catch(NullPointerException npex) {
+				System.out.println("Konnte nicht auf die Datei zugreifen! Bitte ueberpruefen sie den DateiNamen, gegebenenfalls den Pfad.");
+				erfolg = false;
+			}
+			catch(IOException ioex) {
+				System.out.println("IO-Fehler! Bitte Datei ueberpruefen!");
+				erfolg = false;
+			}
+			catch(Throwable t) {
+				System.out.println("Fehler beim Einlesen des Start-Textes. Bitte ueberpruefen sie den DateiNamen, gegebenenfalls den Pfad.");
+				erfolg = false;
+			}
 		
 		// StartText uebergeben
 		this.startText = lesen.toString();
+		
+		return erfolg;
 	}
 	
 	
@@ -99,8 +105,9 @@ public class StreamKoordinierung {
 		BufferedWriter bw;
 		
 		try {
-			bw = new BufferedWriter(new FileWriter(new File(endText)));
-			bw.write(endText);
+			bw = new BufferedWriter(new FileWriter(new File(endDatei)));
+			// bw.write(endText);
+			bw.close();
 		}
 		catch(IOException ioex) {
 			System.out.println("Fehler beim Erstellen des Writers bzw. beim Schreiben, bitte mit anderem Datei-Namen versuchen!");

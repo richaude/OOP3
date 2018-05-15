@@ -29,23 +29,36 @@ public class Verwaltung {
 		
 		// Schluessel-Eingabe
 		if(chiffrieren) {
-			System.out.println("Bitte geben sie jetzt den Schluessel ein, der zum Chiffrieren verwendet werden soll. Entscheiden Sie sich\ndabei fuer eine Ganzzahl zwischen 1 und 25.\nMoechten sie einen zufaelligen Schluessen, geben sie bitte '88' ein.");
+			System.out.println("Bitte geben sie jetzt den Schluessel ein, der zum Chiffrieren verwendet werden soll. Entscheiden Sie sich\ndabei fuer eine Ganzzahl zwischen 1 und 25.\nMoechten sie einen zufaelligen Schluessel, geben sie bitte '88' ein.");
 		}
 		else {
 			System.out.println("Wenn sie den fuer die Dechiffrierung benoetigten Schluessel kennen, geben sie ihn jetzt bitte ein. Sollten\nSie ihn nicht kennen, geben sie bitte die '88' ein.");
 		}
 		byte schluessel = getSchluessel();
-
+		
 		// Als naechstes die Datei-Namen
-		String[] namen = getDateiNamen();
-		String eingabeDatei = namen[0];
-		String ausgabeDatei = namen[1];
+		boolean erfolgreichEingelesen = false;
+		do {
 		
-		// Nun haben wir alles und leiten die Initialisierung ein
+			String[] namen = getDateiNamen();
+			String eingabeDatei = namen[0];
+			String ausgabeDatei = namen[1];
 		
-		this.streamKoordinierung = new StreamKoordinierung(chiffrieren, schluessel, eingabeDatei, ausgabeDatei );
+			// Nun haben wir alles und leiten die Initialisierung ein
 		
-		System.out.println("\n\nDie Eingabe lief erfolgreich ab, wir beginnen nun mit der De-/Chiffrierung.");
+			this.streamKoordinierung = new StreamKoordinierung(chiffrieren, schluessel, eingabeDatei, ausgabeDatei );
+			erfolgreichEingelesen = this.streamKoordinierung.liesStarttextAusDatei();
+			if(!erfolgreichEingelesen) {
+				System.out.println("\n\nBeim Lesen der Datei trat ein Fehler auf, bitte geben sie erneut die DateiNamen an!\n");
+			}
+		}
+		while(!erfolgreichEingelesen);
+		
+		
+		
+		
+		
+		System.out.println("\nDie Eingabe lief erfolgreich ab, wir beginnen nun mit der De-/Chiffrierung.");
 	}
 	
 	// Schlussendliche Textausgabe auf der Konsole
@@ -123,7 +136,7 @@ public class Verwaltung {
 			}
 			try {
 				schluessel = Byte.parseByte(eingabe);
-				System.out.println(schluessel);
+				
 			}	
 			catch (NumberFormatException nfex) {
 				System.out.println("Konnte die Eingabe nicht zu einer Zahl konvertieren! Bitte erneut versuchen!");
@@ -163,7 +176,7 @@ public class Verwaltung {
 		do {
 			wiederhole3 = true;
 			eingabe = "";	
-			System.out.println("Nun kommen wir zu den Dateinamen. Bitte geben sie innerhalb einer Eingabe zuerst den der Eingabedatei,\ndanach den der Ausgabedatei an und trennen sie die Beiden mittels '%'!\nFaellt Ihnen kein Name ein, werden Standart-Namen verwendet.");
+			System.out.println("Weiter geht's mit den Dateinamen. Bitte geben sie innerhalb einer Eingabe zuerst den der Eingabedatei,\ndanach den der Ausgabedatei an und trennen sie die Beiden mittels '%'!\nFaellt Ihnen kein Name ein, werden Standart-Namen verwendet.");
 			
 			try {
 				eingabe = br.readLine().trim();
@@ -171,11 +184,10 @@ public class Verwaltung {
 					eingabe = "startDatei.txt%endDatei.txt";
 				}
 				else if(!eingabe.contains("%")) {
-					System.out.println("Da in ihrer Eingabe kein Trenn-Operator vorhanden war, benutzen wir die Standart-Dateinamen.");
-					eingabe = "startDatei.txt%endDatei.txt";
+					System.out.println("Da in ihrer Eingabe kein Trenn-Operator vorhanden war, benutzen wir die Eingabe als Start-Dateinamen.");
+					eingabe = new String(eingabe + "%");
 				}
 			}
-			
 			
 			catch(IOException ioex) {
 				System.out.println("Konnte die Eingabe nicht lesen! Bitte versuchen sie es erneut!");
