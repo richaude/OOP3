@@ -78,7 +78,7 @@ public class Verwaltung {
 	public void ausgabe() {
 		this.streamKoordinierung.koordiniereAnhandDerEingabedaten();
 		this.streamKoordinierung.schreibeEndtextInDatei();
-		System.out.println("Alles erfolgreich abgelaufen, herzlichen Glueckwunsch!");
+		System.out.println("\n\nAlles erfolgreich abgelaufen, herzlichen Glueckwunsch!");
 	}
 	
 	//*****************************
@@ -231,7 +231,7 @@ public class Verwaltung {
 				ausgabeDatei = eingabe.split("%")[1];
 			}
 			else if(getrennteNamen.length > 2) {
-				System.out.println("Mehr als zwei Namen sind nicht zulaessig, es werden Standart-Namen verwendet.");
+				System.out.println("Mehr als zwei Namen sind nicht zulaessig, es werden Standard-Namen verwendet.");
 				eingabeDatei = "startDatei.txt";
 				ausgabeDatei = "endDatei.txt";
 			}

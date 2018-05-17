@@ -1,6 +1,7 @@
 package kodierung;
 
 import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -55,27 +56,35 @@ public class StreamKoordinierung {
 				//Benutze zufaelligen Schluessel
 				schluessel = (byte)(Math.random() * 26);
 				this.chiffre = new Chiffre(this.startText, this.schluessel);
+				System.out.println("Als Schluessel verwenden wir: "+this.schluessel);
 			} else {
 				this.chiffre = new Chiffre(this.startText, this.schluessel);
 			}
 			chiffre.beseitigeSonderzeichen();
 			ausgabe = this.chiffre.chiffriere();
+			System.out.println("Den verschluesselte Text finden sie nun in ihrer Ausgabedatei. Als Vorgeschmack:\n\n" + ausgabe);
 		}
-		else {
+		else { // Hier Dechiffrieren
 			this.chiffre = new Chiffre(this.startText, this.schluessel);
 			chiffre.beseitigeSonderzeichen();
 			
 			if(this.schluessel == 88) {
 				// Operationen Ohne Schluessel
-				ausgabe = chiffre.dechiffriereOhneSchluessel();	
+				boolean modus = getDechiffrierMethode(); // True -> Zufall False -> Kryptanalyse
+				if(modus) {
+					ausgabe = chiffre.dechiffriereOhneSchluessel();
+				}
+				else {
+					ausgabe = chiffre.kryptAnalyse();
+				}
 			}
 			else {
 				// Operationen mit Schluessel
 				ausgabe = chiffre.dechiffriereMitSchluessel();	
 			}
+			System.out.println("Den dechiffrierten Text finden sie in ihrer Ausgabedatei. Als Vorgeschmack:\n\n" + ausgabe);
 		}
 		this.endText = ausgabe;
-		System.out.println(chiffre.kryptAnalyse());
 	//	System.out.println(this.endText + " <-- EndTExt"); // Debug
 	}
 	
@@ -94,6 +103,7 @@ public class StreamKoordinierung {
 				String s = new String("");
 				while((s = br.readLine())!= null) {
 					lesen.append(s);
+					lesen.append("\n");
 				}
 			}
 			catch(FileNotFoundException fnfex) {
@@ -115,7 +125,6 @@ public class StreamKoordinierung {
 		
 		// StartText uebergeben
 		this.startText = lesen.toString();
-		
 		return erfolg;
 	}
 	
@@ -127,7 +136,7 @@ public class StreamKoordinierung {
 		
 		try {
 			bw = new BufferedWriter(new FileWriter(new File(endDatei)));
-			// bw.write(endText);
+			bw.write(endText);
 			bw.close();
 		}
 		catch(IOException ioex) {
@@ -137,5 +146,43 @@ public class StreamKoordinierung {
 			System.out.println("End-Datei konnte nicht erstellt werden. Bitter erneut versuchen!");
 		}
 
+	}
+	
+	private boolean getDechiffrierMethode() {
+		boolean ergebnis = false;
+		String eingabe = new String("");
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		boolean wiederhole;
+		do {
+		wiederhole= true;
+		System.out.println("Waehlen Sie zum Schluss nun bitte die Methode anhand derer der Text entschluesselt werden soll.\nDabei geben sie bitte 'K' fuer eine Kryptanalyse ein oder 'Z' fuer eine zufallsbasierte Loesung!");
+	
+		try {
+			eingabe = br.readLine().toLowerCase().trim();
+		}
+		catch(IOException ioex) {
+			System.out.println("Konnte die Eingabe nicht lesen! Bitte versuchen sie es erneut.");
+			eingabe = "";
+			continue;
+		}
+		if((eingabe.equals("k") || eingabe.equals("z"))) {
+			wiederhole = false;
+		}
+		else {
+			System.out.println("Leider konnten wir ihre Eingabe nicht richtig deuten. Bitte achten sie auf die zulaessigen Zeichen!");
+		}
+			
+	}
+	while(wiederhole);
+		
+	if(eingabe.equals("k")) {
+		ergebnis = false;
+	}
+	else {
+		ergebnis = true;
+	}
+	
+	return ergebnis;
 	}
 }
