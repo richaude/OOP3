@@ -195,7 +195,7 @@ public class Verwaltung {
 		do {
 			wiederhole3 = true;
 			eingabe = "";	
-			System.out.println("Weiter geht's mit den Dateinamen. Bitte geben sie innerhalb einer Eingabe zuerst den der Eingabedatei,\ndanach den der Ausgabedatei an und trennen sie die Beiden mittels '%'!\nFaellt Ihnen kein Name ein, werden Standart-Namen verwendet.");
+			System.out.println("Weiter geht's mit den Dateinamen. Bitte geben sie innerhalb einer Eingabe zuerst den der Eingabedatei,\ndanach den der Ausgabedatei an und trennen sie die Beiden mittels '%'!\nFaellt Ihnen kein Name ein, werden Standart-Namen (Input := startDatei.txt; Output := endDatei.txt) verwendet.");
 			
 			try {
 				eingabe = br.readLine().trim();

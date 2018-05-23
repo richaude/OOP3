@@ -21,7 +21,6 @@ public class StreamKoordinierung {
 	private String endText;
 	private String startDatei;
 	private String endDatei;
-	private Chiffre chiffre;
 	
 	
 	/**
@@ -48,39 +47,39 @@ public class StreamKoordinierung {
 
 		String ausgabe = new String("");
 	//	chiffre.beseitigeSonderzeichen();
-		
 		// Evaluiere zwischen den Modi
 		if(chiffrieren) {
+			Chiffrierung chiffrierung;
 			// Operationen mit Schluessel
 			if(schluessel == 88) {
 				//Benutze zufaelligen Schluessel
 				schluessel = (byte)(Math.random() * 26);
-				this.chiffre = new Chiffre(this.startText, this.schluessel);
+				chiffrierung = new Chiffrierung(this.startText, this.schluessel);
+				chiffrierung.beseitigeSonderzeichen();
 				System.out.println("Als Schluessel verwenden wir: "+this.schluessel);
 			} else {
-				this.chiffre = new Chiffre(this.startText, this.schluessel);
+				chiffrierung = new Chiffrierung(this.startText, this.schluessel);
+				chiffrierung.beseitigeSonderzeichen();
 			}
-			chiffre.beseitigeSonderzeichen();
-			ausgabe = this.chiffre.chiffriere();
+			ausgabe = chiffrierung.chiffriere();
 			System.out.println("Den verschluesselte Text finden sie nun in ihrer Ausgabedatei. Als Vorgeschmack:\n\n" + ausgabe);
 		}
 		else { // Hier Dechiffrieren
-			this.chiffre = new Chiffre(this.startText, this.schluessel);
-			chiffre.beseitigeSonderzeichen();
+			Dechiffrierung dechiffrierung = new Dechiffrierung(this.startText, this.schluessel);
 			
 			if(this.schluessel == 88) {
 				// Operationen Ohne Schluessel
 				boolean modus = getDechiffrierMethode(); // True -> Zufall False -> Kryptanalyse
 				if(modus) {
-					ausgabe = chiffre.dechiffriereOhneSchluessel();
+					ausgabe = dechiffrierung.dechiffriereOhneSchluessel();
 				}
 				else {
-					ausgabe = chiffre.kryptAnalyse();
+					ausgabe = dechiffrierung.kryptAnalyse();
 				}
 			}
 			else {
 				// Operationen mit Schluessel
-				ausgabe = chiffre.dechiffriereMitSchluessel();	
+				ausgabe = dechiffrierung.dechiffriereMitSchluessel();	
 			}
 			System.out.println("Den dechiffrierten Text finden sie in ihrer Ausgabedatei. Als Vorgeschmack:\n\n" + ausgabe);
 		}
@@ -125,6 +124,7 @@ public class StreamKoordinierung {
 		
 		// StartText uebergeben
 		this.startText = lesen.toString();
+		//System.out.println(this.startText);
 		return erfolg;
 	}
 	
